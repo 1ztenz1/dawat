@@ -5,7 +5,8 @@ import { useEffect, useRef, type ReactNode } from "react";
 import { cn } from "@/lib/format";
 
 /* Native <dialog>: focus trap, Esc and top-layer for free.
-   Bottom sheet on phones, side drawer or centred modal on larger screens. */
+   "drawer" slides in from the right on every screen size (menu, cart).
+   "modal" is a bottom sheet on phones and a centred card on larger screens. */
 export function Sheet({
   open,
   onClose,
@@ -53,23 +54,25 @@ export function Sheet({
         if (e.target === ref.current) onClose();
       }}
       className={cn(
-        "m-0 max-h-none max-w-none bg-transparent p-0 text-text outline-none backdrop:bg-[#07140f]/60 backdrop:backdrop-blur-[3px]",
-        "fixed inset-x-0 bottom-0 top-auto w-full",
+        "fixed m-0 max-h-none max-w-none bg-transparent p-0 text-text outline-none",
+        "backdrop:animate-[fade_0.2s_ease_both] backdrop:bg-[#07140f]/60 backdrop:backdrop-blur-[3px]",
         variant === "drawer"
-          ? "sm:inset-y-0 sm:left-auto sm:right-0 sm:h-full sm:w-[440px]"
-          : "sm:inset-0 sm:m-auto sm:h-fit sm:w-[min(92vw,560px)]",
+          ? "inset-y-0 left-auto right-0 h-dvh w-[min(88vw,420px)]"
+          : "inset-x-0 bottom-0 top-auto w-full sm:inset-0 sm:m-auto sm:h-fit sm:w-[min(92vw,560px)]",
       )}
     >
       {open && (
         <div
           className={cn(
-            "animate-sheet flex max-h-[92dvh] flex-col overflow-hidden rounded-t-[1.75rem] border border-line bg-surface shadow-lift",
-            variant === "drawer" ? "sm:h-full sm:max-h-none sm:rounded-none sm:rounded-l-[1.75rem]" : "sm:rounded-[1.75rem]",
+            "flex flex-col overflow-hidden border border-line bg-surface shadow-lift",
+            variant === "drawer"
+              ? "animate-drawer h-full rounded-l-[1.75rem] border-r-0"
+              : "animate-sheet max-h-[92dvh] rounded-t-[1.75rem] sm:animate-pop-in sm:rounded-[1.75rem]",
             className,
           )}
         >
-          <div className="mx-auto mt-2.5 h-1.5 w-10 rounded-full bg-line-strong sm:hidden" aria-hidden />
-          <header className="flex items-center justify-between gap-3 px-5 pb-3 pt-3 sm:pt-5">
+          {variant === "modal" && <div className="mx-auto mt-2.5 h-1.5 w-10 rounded-full bg-line-strong sm:hidden" aria-hidden />}
+          <header className={cn("flex items-center justify-between gap-3 px-5 pb-3", variant === "drawer" ? "pt-[max(1.25rem,env(safe-area-inset-top))]" : "pt-3 sm:pt-5")}>
             <h2 className="text-xl">{title}</h2>
             <button onClick={onClose} className="grid size-10 place-items-center rounded-full bg-bg-subtle text-text-2 hover:text-text" aria-label="Close">
               <X size={18} />
