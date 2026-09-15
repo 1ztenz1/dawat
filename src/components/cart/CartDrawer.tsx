@@ -45,8 +45,8 @@ export function CartDrawer() {
             </div>
             <p className="-mt-2 text-xs text-muted">Delivery included. Taxes and coupons at checkout.</p>
             <div className="grid grid-cols-2 gap-2">
-              <Link href="/cart" className="btn btn-outline">View cart</Link>
-              <Link href="/checkout" className="btn btn-accent">Checkout</Link>
+              <Link href="/cart" onClick={() => ui.set({ cartOpen: false })} className="btn btn-outline">View cart</Link>
+              <Link href="/checkout" onClick={() => ui.set({ cartOpen: false })} className="btn btn-accent">Checkout</Link>
             </div>
           </div>
         )
@@ -58,8 +58,8 @@ export function CartDrawer() {
           <p className="font-display text-xl">Your cart is empty</p>
           <p className="max-w-xs text-sm text-muted">Pick a plan or try a meal for a few days, and it&apos;ll show up here.</p>
           <div className="mt-2 flex gap-2">
-            <Link href="/plans" className="btn btn-primary btn-sm">Browse plans</Link>
-            <Link href="/trial" className="btn btn-outline btn-sm">Try a meal</Link>
+            <Link href="/plans" onClick={() => ui.set({ cartOpen: false })} className="btn btn-primary btn-sm">Browse plans</Link>
+            <Link href="/trial" onClick={() => ui.set({ cartOpen: false })} className="btn btn-outline btn-sm">Try a meal</Link>
           </div>
         </div>
       ) : (

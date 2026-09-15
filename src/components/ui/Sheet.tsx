@@ -29,6 +29,9 @@ export function Sheet({
     const d = ref.current;
     if (!d) return;
     if (open && !d.open) {
+      // Focus the dialog itself, not its first link. The panel is still off-screen
+      // while it slides in, and focusing a child would scroll the page behind it.
+      d.setAttribute("autofocus", "");
       d.showModal();
       document.documentElement.style.overflow = "hidden";
     } else if (!open && d.open) {
@@ -50,7 +53,7 @@ export function Sheet({
         if (e.target === ref.current) onClose();
       }}
       className={cn(
-        "m-0 max-h-none max-w-none bg-transparent p-0 text-text backdrop:bg-[#07140f]/60 backdrop:backdrop-blur-[3px]",
+        "m-0 max-h-none max-w-none bg-transparent p-0 text-text outline-none backdrop:bg-[#07140f]/60 backdrop:backdrop-blur-[3px]",
         "fixed inset-x-0 bottom-0 top-auto w-full",
         variant === "drawer"
           ? "sm:inset-y-0 sm:left-auto sm:right-0 sm:h-full sm:w-[440px]"

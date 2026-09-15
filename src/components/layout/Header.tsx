@@ -125,16 +125,16 @@ export function Header() {
       <Sheet open={menuOpen} onClose={() => ui.set({ menuOpen: false })} title="Menu" variant="drawer">
         <nav aria-label="Mobile" className="grid">
           {[{ href: "/", label: "Home" }, ...navLinks, { href: "/shop", label: "Shop all" }, { href: "/subscribe", label: "Offers" }, { href: "/delivery-areas", label: "Delivery areas" }, { href: "/faq", label: "FAQ" }].map((l) => (
-            <Link key={l.href} href={l.href} className="flex items-center justify-between border-b border-line py-3.5 text-lg font-semibold">
+            <Link key={l.href} href={l.href} onClick={() => ui.set({ menuOpen: false })} className="flex items-center justify-between border-b border-line py-3.5 text-lg font-semibold">
               {l.label} <ChevronRight size={18} className="text-muted" />
             </Link>
           ))}
         </nav>
         <div className="mt-6 grid gap-3">
-          <Link href={user ? "/account" : "/login"} className="btn btn-outline btn-block">
+          <Link href={user ? "/account" : "/login"} onClick={() => ui.set({ menuOpen: false })} className="btn btn-outline btn-block">
             <UserRound size={18} /> {user ? `My account (${user.displayName})` : "Log in / Sign up"}
           </Link>
-          <Link href="/plans" className="btn btn-accent btn-block">Order now</Link>
+          <Link href="/plans" onClick={() => ui.set({ menuOpen: false })} className="btn btn-accent btn-block">Order now</Link>
         </div>
         <div className="mt-6">
           <p className="label">Appearance</p>
